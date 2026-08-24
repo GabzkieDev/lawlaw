@@ -252,6 +252,11 @@ function Index() {
       {/* Hero */}
       <section id="home" className="relative overflow-hidden">
         <div className="absolute inset-0 bg-primary" />
+        <img
+          src={campusAsset.url}
+          alt="Kolehiyo ng Heneral Santos campus building"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
         <div className="hero-overlay absolute inset-0" />
         <div
           className="absolute -right-24 -top-24 h-96 w-96 rounded-full opacity-20 blur-3xl"
