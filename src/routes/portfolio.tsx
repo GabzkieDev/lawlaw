@@ -73,7 +73,7 @@ function SmokeCanvas() {
       ctx.clearRect(0, 0, w, h);
       ctx.globalCompositeOperation = "lighter";
       for (let i = 0; i < puffs.length; i++) {
-        const p = puffs[i];
+        const p = puffs[i]!;
         p.x += p.vx + Math.sin(t + i) * 0.25;
         p.y += p.vy;
         p.a += p.da;
