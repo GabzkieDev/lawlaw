@@ -671,21 +671,35 @@ function Index() {
           <div>
             <p className="font-display text-sm font-bold uppercase tracking-wide text-gold">Connect</p>
             <ul className="mt-4 space-y-2 text-sm">
-              <li><a href="tel:+63835555555" className="text-primary-foreground/75 hover:text-gold">(083) 555-5555</a></li>
-              <li><a href="mailto:info@khens.edu.ph" className="text-primary-foreground/75 hover:text-gold">info@khens.edu.ph</a></li>
-              <li className="text-primary-foreground/75">General Santos City, South Cotabato</li>
+              <li>
+                <a
+                  href="https://www.facebook.com/KolehiyoNgHeneralSantos"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary-foreground/75 transition-colors hover:text-gold"
+                >
+                  facebook.com/KolehiyoNgHeneralSantos
+                </a>
+              </li>
+              <li>
+                <a href="mailto:kolehiyodeheneral@gmail.com" className="text-primary-foreground/75 transition-colors hover:text-gold">
+                  kolehiyodeheneral@gmail.com
+                </a>
+              </li>
+              <li className="text-primary-foreground/75">
+                Purok Maliwanag, Barangay Calumpang, General Santos City, 9500
+              </li>
             </ul>
             <div className="mt-4 flex gap-3">
-              {["F", "X", "in"].map((s) => (
-                <a
-                  key={s}
-                  href="#home"
-                  aria-label={s}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-foreground/25 text-xs font-bold text-primary-foreground/85 transition-colors hover:border-gold hover:text-gold"
-                >
-                  {s}
-                </a>
-              ))}
+              <a
+                href="https://www.facebook.com/KolehiyoNgHeneralSantos"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-foreground/25 text-xs font-bold text-primary-foreground/85 transition-colors hover:border-gold hover:text-gold"
+              >
+                f
+              </a>
             </div>
           </div>
         </div>
