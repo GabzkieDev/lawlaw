@@ -77,8 +77,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Kolehiyo ng Heneral Santos" },
+      {
+        name: "description",
+        content:
+          "Official website of Kolehiyo ng Heneral Santos, General Santos City — accessible, quality higher education.",
+      },
       { name: "author", content: "Kolehiyo ng Heneral Santos" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
