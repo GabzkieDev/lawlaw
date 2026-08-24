@@ -145,11 +145,16 @@ function Index() {
             Enrollment for SY 2026–2027 is now open.
           </p>
           <div className="hidden items-center gap-4 sm:flex">
-            <a href="tel:+63835555555" className="hover:text-gold transition-colors">
-              (083) 555-5555
+            <a
+              href="https://www.facebook.com/KolehiyoNgHeneralSantos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gold transition-colors"
+            >
+              Facebook
             </a>
-            <a href="mailto:info@khens.edu.ph" className="hover:text-gold transition-colors">
-              info@khens.edu.ph
+            <a href="mailto:kolehiyodeheneral@gmail.com" className="hover:text-gold transition-colors">
+              kolehiyodeheneral@gmail.com
             </a>
           </div>
         </div>
