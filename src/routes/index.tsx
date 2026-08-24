@@ -529,9 +529,16 @@ function Index() {
 
             <div className="mt-8 space-y-4">
               {[
-                { k: "Address", v: "Kolehiyo ng Heneral Santos, General Santos City, South Cotabato, Philippines" },
-                { k: "Phone", v: "(083) 555-5555 / (083) 555-5556" },
-                { k: "Email", v: "info@khens.edu.ph · admissions@khens.edu.ph" },
+                {
+                  k: "Address",
+                  v: "Purok Maliwanag, Barangay Calumpang, General Santos City, Philippines, 9500",
+                },
+                { k: "Email", v: "kolehiyodeheneral@gmail.com" },
+                {
+                  k: "Facebook",
+                  v: "www.facebook.com/KolehiyoNgHeneralSantos",
+                  href: "https://www.facebook.com/KolehiyoNgHeneralSantos",
+                },
                 { k: "Office Hours", v: "Monday–Friday, 8:00 AM – 5:00 PM" },
               ].map((row) => (
                 <div key={row.k} className="flex gap-4 rounded-xl border border-border bg-card p-4">
@@ -545,7 +552,18 @@ function Index() {
                   </div>
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{row.k}</p>
-                    <p className="text-sm font-semibold text-foreground">{row.v}</p>
+                    {row.href ? (
+                      <a
+                        href={row.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="break-words text-sm font-semibold text-flame hover:underline"
+                      >
+                        {row.v}
+                      </a>
+                    ) : (
+                      <p className="text-sm font-semibold text-foreground">{row.v}</p>
+                    )}
                   </div>
                 </div>
               ))}
