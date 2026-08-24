@@ -145,11 +145,16 @@ function Index() {
             Enrollment for SY 2026–2027 is now open.
           </p>
           <div className="hidden items-center gap-4 sm:flex">
-            <a href="tel:+63835555555" className="hover:text-gold transition-colors">
-              (083) 555-5555
+            <a
+              href="https://www.facebook.com/KolehiyoNgHeneralSantos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gold transition-colors"
+            >
+              Facebook
             </a>
-            <a href="mailto:info@khens.edu.ph" className="hover:text-gold transition-colors">
-              info@khens.edu.ph
+            <a href="mailto:kolehiyodeheneral@gmail.com" className="hover:text-gold transition-colors">
+              kolehiyodeheneral@gmail.com
             </a>
           </div>
         </div>
@@ -524,9 +529,16 @@ function Index() {
 
             <div className="mt-8 space-y-4">
               {[
-                { k: "Address", v: "Kolehiyo ng Heneral Santos, General Santos City, South Cotabato, Philippines" },
-                { k: "Phone", v: "(083) 555-5555 / (083) 555-5556" },
-                { k: "Email", v: "info@khens.edu.ph · admissions@khens.edu.ph" },
+                {
+                  k: "Address",
+                  v: "Purok Maliwanag, Barangay Calumpang, General Santos City, Philippines, 9500",
+                },
+                { k: "Email", v: "kolehiyodeheneral@gmail.com" },
+                {
+                  k: "Facebook",
+                  v: "www.facebook.com/KolehiyoNgHeneralSantos",
+                  href: "https://www.facebook.com/KolehiyoNgHeneralSantos",
+                },
                 { k: "Office Hours", v: "Monday–Friday, 8:00 AM – 5:00 PM" },
               ].map((row) => (
                 <div key={row.k} className="flex gap-4 rounded-xl border border-border bg-card p-4">
@@ -540,7 +552,18 @@ function Index() {
                   </div>
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{row.k}</p>
-                    <p className="text-sm font-semibold text-foreground">{row.v}</p>
+                    {row.href ? (
+                      <a
+                        href={row.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="break-words text-sm font-semibold text-flame hover:underline"
+                      >
+                        {row.v}
+                      </a>
+                    ) : (
+                      <p className="text-sm font-semibold text-foreground">{row.v}</p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -648,21 +671,35 @@ function Index() {
           <div>
             <p className="font-display text-sm font-bold uppercase tracking-wide text-gold">Connect</p>
             <ul className="mt-4 space-y-2 text-sm">
-              <li><a href="tel:+63835555555" className="text-primary-foreground/75 hover:text-gold">(083) 555-5555</a></li>
-              <li><a href="mailto:info@khens.edu.ph" className="text-primary-foreground/75 hover:text-gold">info@khens.edu.ph</a></li>
-              <li className="text-primary-foreground/75">General Santos City, South Cotabato</li>
+              <li>
+                <a
+                  href="https://www.facebook.com/KolehiyoNgHeneralSantos"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary-foreground/75 transition-colors hover:text-gold"
+                >
+                  facebook.com/KolehiyoNgHeneralSantos
+                </a>
+              </li>
+              <li>
+                <a href="mailto:kolehiyodeheneral@gmail.com" className="text-primary-foreground/75 transition-colors hover:text-gold">
+                  kolehiyodeheneral@gmail.com
+                </a>
+              </li>
+              <li className="text-primary-foreground/75">
+                Purok Maliwanag, Barangay Calumpang, General Santos City, 9500
+              </li>
             </ul>
             <div className="mt-4 flex gap-3">
-              {["F", "X", "in"].map((s) => (
-                <a
-                  key={s}
-                  href="#home"
-                  aria-label={s}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-foreground/25 text-xs font-bold text-primary-foreground/85 transition-colors hover:border-gold hover:text-gold"
-                >
-                  {s}
-                </a>
-              ))}
+              <a
+                href="https://www.facebook.com/KolehiyoNgHeneralSantos"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-foreground/25 text-xs font-bold text-primary-foreground/85 transition-colors hover:border-gold hover:text-gold"
+              >
+                f
+              </a>
             </div>
           </div>
         </div>
