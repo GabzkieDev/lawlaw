@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { MapPin, Mail, Facebook, Clock } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.jpg.asset.json";
@@ -105,20 +106,25 @@ const admissionsSteps = [
   },
 ];
 
-const newsItems = [
+type NewsItem = { id: string; date: string; tag: string; title: string; desc: string };
+
+const fallbackNews: NewsItem[] = [
   {
+    id: "fallback-1",
     date: "Aug 18, 2026",
     tag: "Announcement",
     title: "First Semester Enrollment Now Open",
     desc: "Slots for SY 2026–2027 are filling fast. Secure your place before the August 30 deadline.",
   },
   {
+    id: "fallback-2",
     date: "Aug 9, 2026",
     tag: "Achievement",
     title: "Education Graduates Top Licensure Exam",
     desc: "Our BEED and BSED graduates posted a 98% passing rate in the latest LET.",
   },
   {
+    id: "fallback-3",
     date: "Jul 28, 2026",
     tag: "Event",
     title: "Intramurals 2026: Blue vs. Gold",
@@ -129,6 +135,37 @@ const newsItems = [
 function Index() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [newsItems, setNewsItems] = useState<NewsItem[]>(fallbackNews);
+
+  useEffect(() => {
+    let active = true;
+    supabase
+      .from("announcements")
+      .select("id,title,body,category,created_at")
+      .eq("published", true)
+      .order("created_at", { ascending: false })
+      .limit(6)
+      .then(({ data }) => {
+        if (!active || !data || data.length === 0) return;
+        setNewsItems(
+          data.map((a) => ({
+            id: a.id,
+            title: a.title,
+            desc: a.body,
+            tag: a.category,
+            date: new Date(a.created_at).toLocaleDateString("en-PH", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            }),
+          })),
+        );
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -489,15 +526,15 @@ function Index() {
                 What's happening on campus
               </h2>
             </div>
-            <a href="#news" className="text-sm font-bold text-primary hover:underline">
-              View all updates →
-            </a>
+            <Link to="/auth" className="text-sm font-bold text-primary hover:underline">
+              Staff login →
+            </Link>
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {newsItems.map((n) => (
               <article
-                key={n.title}
+                key={n.id}
                 className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="flame-underline h-1.5 w-full" />
@@ -690,6 +727,11 @@ function Index() {
                 <a href="mailto:kolehiyodeheneral@gmail.com" className="text-primary-foreground/75 transition-colors hover:text-gold">
                   kolehiyodeheneral@gmail.com
                 </a>
+              </li>
+              <li>
+                <Link to="/auth" className="text-primary-foreground/75 transition-colors hover:text-gold">
+                  Staff / Admin login
+                </Link>
               </li>
               <li className="text-primary-foreground/75">
                 Purok Maliwanag, Barangay Calumpang, General Santos City, 9500
