@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { MapPin, Mail, Facebook, Clock } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.jpg.asset.json";
 import campusAsset from "@/assets/campus.jpg.asset.json";
 
@@ -149,11 +150,16 @@ function Index() {
               href="https://www.facebook.com/KolehiyoNgHeneralSantos"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gold transition-colors"
+              className="inline-flex items-center gap-1.5 hover:text-gold transition-colors"
             >
+              <Facebook className="h-3.5 w-3.5" />
               Facebook
             </a>
-            <a href="mailto:kolehiyodeheneral@gmail.com" className="hover:text-gold transition-colors">
+            <a
+              href="mailto:kolehiyodeheneral@gmail.com"
+              className="inline-flex items-center gap-1.5 hover:text-gold transition-colors"
+            >
+              <Mail className="h-3.5 w-3.5" />
               kolehiyodeheneral@gmail.com
             </a>
           </div>
@@ -532,22 +538,21 @@ function Index() {
                 {
                   k: "Address",
                   v: "Purok Maliwanag, Barangay Calumpang, General Santos City, Philippines, 9500",
+                  icon: MapPin,
                 },
-                { k: "Email", v: "kolehiyodeheneral@gmail.com" },
+                { k: "Email", v: "kolehiyodeheneral@gmail.com", icon: Mail, href: "mailto:kolehiyodeheneral@gmail.com" },
                 {
                   k: "Facebook",
                   v: "www.facebook.com/KolehiyoNgHeneralSantos",
                   href: "https://www.facebook.com/KolehiyoNgHeneralSantos",
+                  icon: Facebook,
                 },
-                { k: "Office Hours", v: "Monday–Friday, 8:00 AM – 5:00 PM" },
+                { k: "Office Hours", v: "Monday–Friday, 8:00 AM – 5:00 PM", icon: Clock },
               ].map((row) => (
                 <div key={row.k} className="flex gap-4 rounded-xl border border-border bg-card p-4">
                   <div className="flex-none">
                     <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
-                      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="12" cy="10" r="3" />
-                        <path d="M12 2C7 2 4 6 4 10c0 6 8 12 8 12s8-6 8-12c0-4-3-8-8-8z" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      <row.icon className="h-5 w-5" />
                     </span>
                   </div>
                   <div>
@@ -696,9 +701,16 @@ function Index() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-foreground/25 text-xs font-bold text-primary-foreground/85 transition-colors hover:border-gold hover:text-gold"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-gold hover:text-gold"
               >
-                f
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a
+                href="mailto:kolehiyodeheneral@gmail.com"
+                aria-label="Email"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-gold hover:text-gold"
+              >
+                <Mail className="h-4 w-4" />
               </a>
             </div>
           </div>
