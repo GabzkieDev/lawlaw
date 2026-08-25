@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { MapPin, Mail, Facebook, Clock } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.jpg.asset.json";
@@ -525,15 +526,15 @@ function Index() {
                 What's happening on campus
               </h2>
             </div>
-            <a href="#news" className="text-sm font-bold text-primary hover:underline">
-              View all updates →
-            </a>
+            <Link to="/auth" className="text-sm font-bold text-primary hover:underline">
+              Staff login →
+            </Link>
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {newsItems.map((n) => (
               <article
-                key={n.title}
+                key={n.id}
                 className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="flame-underline h-1.5 w-full" />
@@ -726,6 +727,11 @@ function Index() {
                 <a href="mailto:kolehiyodeheneral@gmail.com" className="text-primary-foreground/75 transition-colors hover:text-gold">
                   kolehiyodeheneral@gmail.com
                 </a>
+              </li>
+              <li>
+                <Link to="/auth" className="text-primary-foreground/75 transition-colors hover:text-gold">
+                  Staff / Admin login
+                </Link>
               </li>
               <li className="text-primary-foreground/75">
                 Purok Maliwanag, Barangay Calumpang, General Santos City, 9500
