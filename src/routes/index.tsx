@@ -533,22 +533,21 @@ function Index() {
                 {
                   k: "Address",
                   v: "Purok Maliwanag, Barangay Calumpang, General Santos City, Philippines, 9500",
+                  icon: MapPin,
                 },
-                { k: "Email", v: "kolehiyodeheneral@gmail.com" },
+                { k: "Email", v: "kolehiyodeheneral@gmail.com", icon: Mail, href: "mailto:kolehiyodeheneral@gmail.com" },
                 {
                   k: "Facebook",
                   v: "www.facebook.com/KolehiyoNgHeneralSantos",
                   href: "https://www.facebook.com/KolehiyoNgHeneralSantos",
+                  icon: Facebook,
                 },
-                { k: "Office Hours", v: "Monday–Friday, 8:00 AM – 5:00 PM" },
+                { k: "Office Hours", v: "Monday–Friday, 8:00 AM – 5:00 PM", icon: Clock },
               ].map((row) => (
                 <div key={row.k} className="flex gap-4 rounded-xl border border-border bg-card p-4">
                   <div className="flex-none">
                     <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
-                      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="12" cy="10" r="3" />
-                        <path d="M12 2C7 2 4 6 4 10c0 6 8 12 8 12s8-6 8-12c0-4-3-8-8-8z" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      <row.icon className="h-5 w-5" />
                     </span>
                   </div>
                   <div>
