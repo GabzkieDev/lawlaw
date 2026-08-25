@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 import logoAsset from "@/assets/khens-logo.jpg.asset.json";
 
 export const Route = createFileRoute("/auth")({
@@ -11,28 +10,30 @@ export const Route = createFileRoute("/auth")({
       {
         name: "description",
         content:
-          "Secure sign-in for Kolehiyo ng Heneral Santos staff and administrators to post announcements and campus updates.",
+          "Secure sign-in for the Kolehiyo ng Heneral Santos administrator to post announcements and campus updates.",
       },
       { property: "og:title", content: "Staff Sign In — Kolehiyo ng Heneral Santos" },
       {
         property: "og:description",
-        content: "Secure sign-in for KHENS staff and administrators.",
+        content: "Secure sign-in for the KHENS website administrator.",
       },
       { property: "og:type", content: "website" },
+      { name: "robots", content: "noindex" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: AuthPage,
 });
 
+const ADMIN_USERNAME = "kolehiyo-admin";
+const emailFor = (username: string) => `${username.trim().toLowerCase()}@khens.local`;
+
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
   const [busy, setBusy] = useState(false);
-  const [msg, setMsg] = useState<{ type: "error" | "info"; text: string } | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -42,48 +43,39 @@ function AuthPage() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setMsg(null);
-    if (!email.trim() || password.length < 6) {
-      setMsg({ type: "error", text: "Enter a valid email and a password of at least 6 characters." });
+    setError(null);
+    const user = username.trim().toLowerCase();
+    if (!user || !password) {
+      setError("Enter your username and password.");
       return;
     }
     setBusy(true);
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email: email.trim(),
+      const email = emailFor(user);
+      let { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+
+      // First-time setup: create the single maintainer account on first successful login attempt.
+      if (signInError && user === ADMIN_USERNAME) {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email,
           password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/admin`,
-            data: { full_name: fullName.trim() },
-          },
+          options: { data: { full_name: "KHENS Administrator" } },
         });
-        if (error) throw error;
-        setMsg({ type: "info", text: "Account created. You can sign in now." });
-        setMode("signin");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-        if (error) throw error;
-        navigate({ to: "/admin" });
+        if (!signUpError) {
+          ({ error: signInError } = await supabase.auth.signInWithPassword({ email, password }));
+        }
       }
-    } catch (err) {
-      setMsg({ type: "error", text: err instanceof Error ? err.message : "Something went wrong." });
+
+      if (signInError) {
+        setError("Incorrect username or password.");
+        return;
+      }
+      navigate({ to: "/admin" });
+    } catch {
+      setError("Something went wrong. Please try again.");
     } finally {
       setBusy(false);
     }
-  }
-
-  async function onGoogle() {
-    setMsg(null);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      setMsg({ type: "error", text: "Google sign-in failed. Please try again." });
-      return;
-    }
-    if (result.redirected) return;
-    navigate({ to: "/admin" });
   }
 
   return (
@@ -98,32 +90,18 @@ function AuthPage() {
         </div>
 
         <form onSubmit={onSubmit} className="mt-8 space-y-4">
-          {mode === "signup" && (
-            <div>
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
-                Full name
-              </label>
-              <input
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                maxLength={100}
-                className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
-                placeholder="Juan Dela Cruz"
-              />
-            </div>
-          )}
           <div>
             <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
-              Email
+              Username
             </label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              maxLength={255}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              maxLength={60}
+              autoComplete="username"
               required
               className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
-              placeholder="you@example.com"
+              placeholder="kolehiyo-admin"
             />
           </div>
           <div>
@@ -135,47 +113,26 @@ function AuthPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               maxLength={72}
+              autoComplete="current-password"
               required
               className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
               placeholder="••••••••"
             />
           </div>
 
-          {msg && (
-            <p className={`text-sm ${msg.type === "error" ? "text-destructive" : "text-primary"}`}>{msg.text}</p>
-          )}
+          {error && <p className="text-sm text-destructive">{error}</p>}
 
           <button
             type="submit"
             disabled={busy}
             className="w-full rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition hover:opacity-90 disabled:opacity-60"
           >
-            {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
+            {busy ? "Please wait…" : "Sign in"}
           </button>
         </form>
 
-        <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
-          <span className="h-px flex-1 bg-border" /> or <span className="h-px flex-1 bg-border" />
-        </div>
-
-        <button
-          onClick={onGoogle}
-          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm font-bold text-foreground transition hover:bg-secondary"
-        >
-          Continue with Google
-        </button>
-
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          {mode === "signin" ? "No staff account yet?" : "Already have an account?"}{" "}
-          <button
-            onClick={() => {
-              setMode(mode === "signin" ? "signup" : "signin");
-              setMsg(null);
-            }}
-            className="font-bold text-primary hover:underline"
-          >
-            {mode === "signin" ? "Create one" : "Sign in"}
-          </button>
+        <p className="mt-6 text-center text-xs text-muted-foreground">
+          This website is maintained by a single administrator account.
         </p>
         <p className="mt-3 text-center text-sm">
           <Link to="/" className="text-muted-foreground hover:underline">

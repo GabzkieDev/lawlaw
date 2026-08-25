@@ -156,7 +156,7 @@ function AdminPage() {
             <img src={logoAsset.url} alt="KHENS seal" className="h-10 w-10 rounded-full" />
             <div>
               <p className="font-display text-sm font-extrabold text-foreground">Announcement Manager</p>
-              <p className="text-xs text-muted-foreground">{userEmail}</p>
+              <p className="text-xs text-muted-foreground">{userEmail?.split("@")[0]}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
