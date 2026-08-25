@@ -150,11 +150,16 @@ function Index() {
               href="https://www.facebook.com/KolehiyoNgHeneralSantos"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gold transition-colors"
+              className="inline-flex items-center gap-1.5 hover:text-gold transition-colors"
             >
+              <Facebook className="h-3.5 w-3.5" />
               Facebook
             </a>
-            <a href="mailto:kolehiyodeheneral@gmail.com" className="hover:text-gold transition-colors">
+            <a
+              href="mailto:kolehiyodeheneral@gmail.com"
+              className="inline-flex items-center gap-1.5 hover:text-gold transition-colors"
+            >
+              <Mail className="h-3.5 w-3.5" />
               kolehiyodeheneral@gmail.com
             </a>
           </div>
