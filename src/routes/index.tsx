@@ -696,9 +696,16 @@ function Index() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-foreground/25 text-xs font-bold text-primary-foreground/85 transition-colors hover:border-gold hover:text-gold"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-gold hover:text-gold"
               >
-                f
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a
+                href="mailto:kolehiyodeheneral@gmail.com"
+                aria-label="Email"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-gold hover:text-gold"
+              >
+                <Mail className="h-4 w-4" />
               </a>
             </div>
           </div>
