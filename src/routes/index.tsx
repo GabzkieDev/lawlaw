@@ -105,20 +105,25 @@ const admissionsSteps = [
   },
 ];
 
-const newsItems = [
+type NewsItem = { id: string; date: string; tag: string; title: string; desc: string };
+
+const fallbackNews: NewsItem[] = [
   {
+    id: "fallback-1",
     date: "Aug 18, 2026",
     tag: "Announcement",
     title: "First Semester Enrollment Now Open",
     desc: "Slots for SY 2026–2027 are filling fast. Secure your place before the August 30 deadline.",
   },
   {
+    id: "fallback-2",
     date: "Aug 9, 2026",
     tag: "Achievement",
     title: "Education Graduates Top Licensure Exam",
     desc: "Our BEED and BSED graduates posted a 98% passing rate in the latest LET.",
   },
   {
+    id: "fallback-3",
     date: "Jul 28, 2026",
     tag: "Event",
     title: "Intramurals 2026: Blue vs. Gold",
@@ -129,6 +134,37 @@ const newsItems = [
 function Index() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [newsItems, setNewsItems] = useState<NewsItem[]>(fallbackNews);
+
+  useEffect(() => {
+    let active = true;
+    supabase
+      .from("announcements")
+      .select("id,title,body,category,created_at")
+      .eq("published", true)
+      .order("created_at", { ascending: false })
+      .limit(6)
+      .then(({ data }) => {
+        if (!active || !data || data.length === 0) return;
+        setNewsItems(
+          data.map((a) => ({
+            id: a.id,
+            title: a.title,
+            desc: a.body,
+            tag: a.category,
+            date: new Date(a.created_at).toLocaleDateString("en-PH", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            }),
+          })),
+        );
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
