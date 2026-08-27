@@ -101,7 +101,7 @@ function AuthPage() {
               autoComplete="username"
               required
               className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
-              placeholder="kolehiyo-admin"
+              placeholder=""
             />
           </div>
           <div>
