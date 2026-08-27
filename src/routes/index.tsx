@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import { MapPin, Mail, Facebook, Clock } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.jpg.asset.json";
 import campusAsset from "@/assets/campus.jpg.asset.json";
+import progBsed from "@/assets/prog-bsed.jpg";
+import progBeed from "@/assets/prog-beed.jpg";
+import progIt from "@/assets/prog-it.jpg";
+import progBusiness from "@/assets/prog-business.jpg";
+import progHospitality from "@/assets/prog-hospitality.jpg";
+import progAct from "@/assets/prog-act.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -48,31 +54,67 @@ const programs = [
     title: "Bachelor of Secondary Education",
     desc: "Major in English, Filipino, Mathematics, and Science. Shape the next generation of educators.",
     tag: "Education",
+    image: progBsed,
+    alt: "Education students in a classroom discussion at Kolehiyo ng Heneral Santos",
+    duration: "4 years (8 semesters)",
+    majors: ["English", "Filipino", "Mathematics", "Science"],
+    careers: ["Junior/Senior High School Teacher", "Curriculum Writer", "Academic Coordinator"],
+    highlight: "Includes 1 semester of supervised student teaching in partner public schools and LET review.",
   },
   {
     title: "Bachelor of Elementary Education",
     desc: "Foundational teacher training for early-grade instruction across the core learning areas.",
     tag: "Education",
+    image: progBeed,
+    alt: "Elementary education students practicing classroom teaching",
+    duration: "4 years (8 semesters)",
+    majors: ["Generalist", "Early Childhood Education", "Special Needs Education"],
+    careers: ["Elementary Teacher", "Daycare/Preschool Head", "Learning Support Specialist"],
+    highlight: "Field study starts as early as second year, with hands-on practice in Calumpang schools.",
   },
   {
     title: "BS in Information Technology",
     desc: "Programming, networking, and systems management for the digital economy of SOCCSKSARGEN.",
     tag: "Technology",
+    image: progIt,
+    alt: "Information technology students working on computers in the campus laboratory",
+    duration: "4 years (8 semesters)",
+    majors: ["Web & Mobile Development", "Network Administration", "Database Systems"],
+    careers: ["Software Developer", "Network Engineer", "IT Support Specialist", "Systems Analyst"],
+    highlight: "486 hours of industry internship plus preparation for global IT certifications.",
   },
   {
     title: "BS in Business Administration",
     desc: "Management, marketing, and finance tracks that build tomorrow's local entrepreneurs.",
     tag: "Business",
+    image: progBusiness,
+    alt: "Business administration students in a group presentation",
+    duration: "4 years (8 semesters)",
+    majors: ["Marketing Management", "Financial Management", "Human Resource Management"],
+    careers: ["Business Owner", "Marketing Officer", "HR Associate", "Bank Operations Staff"],
+    highlight: "Capstone business plan competition judged by GenSan entrepreneurs and industry leaders.",
   },
   {
     title: "BS in Hospitality Management",
     desc: "Hotel, restaurant, and tourism operations training anchored on GenSan's thriving industry.",
     tag: "Hospitality",
+    image: progHospitality,
+    alt: "Hospitality management students in uniform during hotel and restaurant training",
+    duration: "4 years (8 semesters)",
+    majors: ["Hotel Operations", "Food & Beverage Services", "Tourism & Events"],
+    careers: ["Hotel Supervisor", "Restaurant Manager", "Cruise Ship Crew", "Events Organizer"],
+    highlight: "On-campus training kitchen and mock hotel rooms, plus local and overseas practicum options.",
   },
   {
     title: "Associate in Computer Technology",
     desc: "A two-year ladderized pathway into IT careers and further degree studies.",
     tag: "Technology",
+    image: progAct,
+    alt: "Computer technology students assembling and troubleshooting hardware",
+    duration: "2 years (4 semesters), ladderized",
+    majors: ["Computer Hardware Servicing", "Office Productivity", "Basic Programming"],
+    careers: ["Computer Technician", "Encoder/Data Staff", "Junior IT Support"],
+    highlight: "Credits fully transfer into the BS Information Technology program after graduation.",
   },
 ];
 
@@ -136,6 +178,7 @@ function Index() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [newsItems, setNewsItems] = useState<NewsItem[]>(fallbackNews);
+  const [openProgram, setOpenProgram] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -451,26 +494,75 @@ function Index() {
           </div>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {programs.map((p) => (
-              <article
-                key={p.title}
-                className="group flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-              >
-                <span className="inline-flex w-fit items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary">
-                  {p.tag}
-                </span>
-                <h3 className="mt-4 font-display text-lg font-bold text-foreground">{p.title}</h3>
-                <p className="mt-2 flex-1 text-sm text-muted-foreground">{p.desc}</p>
-                <a
-                  href="#admissions"
-                  className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-flame transition-colors group-hover:gap-2"
+            {programs.map((p) => {
+              const open = openProgram === p.title;
+              return (
+                <article
+                  key={p.title}
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
                 >
-                  Learn more
-                  <span aria-hidden="true">→</span>
-                </a>
-              </article>
-            ))}
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <img
+                      src={p.image}
+                      alt={p.alt}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-primary px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary-foreground">
+                      {p.tag}
+                    </span>
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="font-display text-lg font-bold text-foreground">{p.title}</h3>
+                    <p className="mt-2 flex-1 text-sm text-muted-foreground">{p.desc}</p>
+
+                    {open && (
+                      <div className="mt-4 space-y-3 rounded-xl bg-secondary p-4 text-sm">
+                        <p className="text-muted-foreground">
+                          <span className="font-bold text-foreground">Duration: </span>
+                          {p.duration}
+                        </p>
+                        <div>
+                          <p className="font-bold text-foreground">Majors / tracks</p>
+                          <ul className="mt-1 list-disc space-y-0.5 pl-5 text-muted-foreground">
+                            {p.majors.map((m) => (
+                              <li key={m}>{m}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <p className="font-bold text-foreground">Career paths</p>
+                          <ul className="mt-1 list-disc space-y-0.5 pl-5 text-muted-foreground">
+                            {p.careers.map((c) => (
+                              <li key={c}>{c}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <p className="text-muted-foreground">{p.highlight}</p>
+                        <a
+                          href="#admissions"
+                          className="inline-flex items-center gap-1 font-bold text-flame"
+                        >
+                          Apply for this program <span aria-hidden="true">→</span>
+                        </a>
+                      </div>
+                    )}
+
+                    <button
+                      type="button"
+                      onClick={() => setOpenProgram(open ? null : p.title)}
+                      aria-expanded={open}
+                      className="mt-4 inline-flex w-fit items-center gap-1 text-sm font-bold text-flame transition-all hover:gap-2"
+                    >
+                      {open ? "Show less" : "Learn more"}
+                      <span aria-hidden="true">{open ? "↑" : "→"}</span>
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
           </div>
+
         </div>
       </section>
 
