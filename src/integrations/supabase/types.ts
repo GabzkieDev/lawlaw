@@ -21,6 +21,7 @@ export type Database = {
           category: string
           created_at: string
           id: string
+          image_url: string | null
           published: boolean
           title: string
           updated_at: string
@@ -31,6 +32,7 @@ export type Database = {
           category?: string
           created_at?: string
           id?: string
+          image_url?: string | null
           published?: boolean
           title: string
           updated_at?: string
@@ -41,6 +43,7 @@ export type Database = {
           category?: string
           created_at?: string
           id?: string
+          image_url?: string | null
           published?: boolean
           title?: string
           updated_at?: string
