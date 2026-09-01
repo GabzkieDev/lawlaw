@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Trash2, Pencil, LogOut, Plus, ShieldCheck } from "lucide-react";
+import { Trash2, Pencil, LogOut, Plus, ShieldCheck, ImagePlus } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.jpg.asset.json";
 
 export const Route = createFileRoute("/admin")({
@@ -298,6 +298,31 @@ function AdminPage() {
                   className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
                   placeholder="Write the full announcement here…"
                 />
+              </div>
+
+              <div className="mt-4">
+                <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                  Photo (optional)
+                </label>
+                <div className="flex flex-wrap items-center gap-4">
+                  <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-border px-4 py-2.5 text-sm font-bold text-foreground hover:border-primary">
+                    <ImagePlus className="h-4 w-4 text-primary" />
+                    {imageFile ? imageFile.name : "Attach a picture"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={pickImage}
+                      className="hidden"
+                    />
+                  </label>
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Announcement photo preview"
+                      className="h-16 w-24 rounded-lg border border-border object-cover"
+                    />
+                  )}
+                </div>
               </div>
 
               <div className="mt-4 flex flex-wrap items-center gap-4">
