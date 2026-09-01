@@ -157,6 +157,7 @@ const fallbackNews: NewsItem[] = [
     tag: "Announcement",
     title: "First Semester Enrollment Now Open",
     desc: "Slots for SY 2026–2027 are filling fast. Secure your place before the August 30 deadline.",
+    image: null,
   },
   {
     id: "fallback-2",
@@ -164,6 +165,7 @@ const fallbackNews: NewsItem[] = [
     tag: "Achievement",
     title: "Education Graduates Top Licensure Exam",
     desc: "Our BEED and BSED graduates posted a 98% passing rate in the latest LET.",
+    image: null,
   },
   {
     id: "fallback-3",
@@ -171,6 +173,7 @@ const fallbackNews: NewsItem[] = [
     tag: "Event",
     title: "Intramurals 2026: Blue vs. Gold",
     desc: "Three days of athletics, arts, and school spirit. Catch the opening ceremony livestream.",
+    image: null,
   },
 ];
 
