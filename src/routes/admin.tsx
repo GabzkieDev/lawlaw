@@ -124,7 +124,31 @@ function AdminPage() {
 
     setBusy(true);
     const { data: sess } = await supabase.auth.getSession();
-    const payload = { title: t, body: b, category, published, author_id: sess.session?.user.id ?? null };
+
+    let imagePath: string | null = existingImage;
+    if (imageFile) {
+      const ext = imageFile.name.split(".").pop()?.toLowerCase() || "jpg";
+      const path = `${crypto.randomUUID()}.${ext}`;
+      const up = await supabase.storage.from("announcements").upload(path, imageFile, {
+        contentType: imageFile.type,
+        upsert: false,
+      });
+      if (up.error) {
+        setBusy(false);
+        setError(`Photo upload failed: ${up.error.message}`);
+        return;
+      }
+      imagePath = path;
+    }
+
+    const payload = {
+      title: t,
+      body: b,
+      category,
+      published,
+      image_url: imagePath,
+      author_id: sess.session?.user.id ?? null,
+    };
     const res = editingId
       ? await supabase.from("announcements").update(payload).eq("id", editingId)
       : await supabase.from("announcements").insert(payload);
@@ -144,12 +168,22 @@ function AdminPage() {
     await loadItems();
   }
 
-  function edit(a: Announcement) {
+  async function edit(a: Announcement) {
     setEditingId(a.id);
     setTitle(a.title);
     setBody(a.body);
     setCategory(a.category);
     setPublished(a.published);
+    setImageFile(null);
+    setExistingImage(a.image_url);
+    if (a.image_url) {
+      const { data: signed } = await supabase.storage
+        .from("announcements")
+        .createSignedUrl(a.image_url, 3600);
+      setImagePreview(signed?.signedUrl ?? null);
+    } else {
+      setImagePreview(null);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
