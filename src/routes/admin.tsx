@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Trash2, Pencil, LogOut, Plus, ShieldCheck } from "lucide-react";
+import { Trash2, Pencil, LogOut, Plus, ShieldCheck, ImagePlus } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.jpg.asset.json";
 
 export const Route = createFileRoute("/admin")({
@@ -30,6 +30,7 @@ type Announcement = {
   category: string;
   published: boolean;
   created_at: string;
+  image_url: string | null;
 };
 
 const categories = ["Announcement", "Admissions", "Events", "Scholarship", "Academics"];
@@ -47,11 +48,14 @@ function AdminPage() {
   const [published, setPublished] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [existingImage, setExistingImage] = useState<string | null>(null);
 
   const loadItems = useCallback(async () => {
     const { data } = await supabase
       .from("announcements")
-      .select("id,title,body,category,published,created_at")
+      .select("id,title,body,category,published,created_at,image_url")
       .order("created_at", { ascending: false });
     setItems((data as Announcement[]) ?? []);
   }, []);
@@ -82,6 +86,20 @@ function AdminPage() {
     setBody("");
     setCategory(categories[0]!);
     setPublished(true);
+    setImageFile(null);
+    setImagePreview(null);
+    setExistingImage(null);
+  }
+
+  function pickImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0] ?? null;
+    if (f && f.size > 5 * 1024 * 1024) {
+      setError("Image must be 5 MB or smaller.");
+      return;
+    }
+    setImageFile(f);
+    setImagePreview(f ? URL.createObjectURL(f) : null);
+    if (f) setExistingImage(null);
   }
 
   async function claimAdmin() {
@@ -106,7 +124,31 @@ function AdminPage() {
 
     setBusy(true);
     const { data: sess } = await supabase.auth.getSession();
-    const payload = { title: t, body: b, category, published, author_id: sess.session?.user.id ?? null };
+
+    let imagePath: string | null = existingImage;
+    if (imageFile) {
+      const ext = imageFile.name.split(".").pop()?.toLowerCase() || "jpg";
+      const path = `${crypto.randomUUID()}.${ext}`;
+      const up = await supabase.storage.from("announcements").upload(path, imageFile, {
+        contentType: imageFile.type,
+        upsert: false,
+      });
+      if (up.error) {
+        setBusy(false);
+        setError(`Photo upload failed: ${up.error.message}`);
+        return;
+      }
+      imagePath = path;
+    }
+
+    const payload = {
+      title: t,
+      body: b,
+      category,
+      published,
+      image_url: imagePath,
+      author_id: sess.session?.user.id ?? null,
+    };
     const res = editingId
       ? await supabase.from("announcements").update(payload).eq("id", editingId)
       : await supabase.from("announcements").insert(payload);
@@ -126,12 +168,22 @@ function AdminPage() {
     await loadItems();
   }
 
-  function edit(a: Announcement) {
+  async function edit(a: Announcement) {
     setEditingId(a.id);
     setTitle(a.title);
     setBody(a.body);
     setCategory(a.category);
     setPublished(a.published);
+    setImageFile(null);
+    setExistingImage(a.image_url);
+    if (a.image_url) {
+      const { data: signed } = await supabase.storage
+        .from("announcements")
+        .createSignedUrl(a.image_url, 3600);
+      setImagePreview(signed?.signedUrl ?? null);
+    } else {
+      setImagePreview(null);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -246,6 +298,31 @@ function AdminPage() {
                   className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
                   placeholder="Write the full announcement here…"
                 />
+              </div>
+
+              <div className="mt-4">
+                <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                  Photo (optional)
+                </label>
+                <div className="flex flex-wrap items-center gap-4">
+                  <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-border px-4 py-2.5 text-sm font-bold text-foreground hover:border-primary">
+                    <ImagePlus className="h-4 w-4 text-primary" />
+                    {imageFile ? imageFile.name : "Attach a picture"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={pickImage}
+                      className="hidden"
+                    />
+                  </label>
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Announcement photo preview"
+                      className="h-16 w-24 rounded-lg border border-border object-cover"
+                    />
+                  )}
+                </div>
               </div>
 
               <div className="mt-4 flex flex-wrap items-center gap-4">

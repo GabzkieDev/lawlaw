@@ -148,7 +148,7 @@ const admissionsSteps = [
   },
 ];
 
-type NewsItem = { id: string; date: string; tag: string; title: string; desc: string };
+type NewsItem = { id: string; date: string; tag: string; title: string; desc: string; image: string | null };
 
 const fallbackNews: NewsItem[] = [
   {
@@ -157,6 +157,7 @@ const fallbackNews: NewsItem[] = [
     tag: "Announcement",
     title: "First Semester Enrollment Now Open",
     desc: "Slots for SY 2026–2027 are filling fast. Secure your place before the August 30 deadline.",
+    image: null,
   },
   {
     id: "fallback-2",
@@ -164,6 +165,7 @@ const fallbackNews: NewsItem[] = [
     tag: "Achievement",
     title: "Education Graduates Top Licensure Exam",
     desc: "Our BEED and BSED graduates posted a 98% passing rate in the latest LET.",
+    image: null,
   },
   {
     id: "fallback-3",
@@ -171,6 +173,7 @@ const fallbackNews: NewsItem[] = [
     tag: "Event",
     title: "Intramurals 2026: Blue vs. Gold",
     desc: "Three days of athletics, arts, and school spirit. Catch the opening ceremony livestream.",
+    image: null,
   },
 ];
 
@@ -184,25 +187,36 @@ function Index() {
     let active = true;
     supabase
       .from("announcements")
-      .select("id,title,body,category,created_at")
+      .select("id,title,body,category,created_at,image_url")
       .eq("published", true)
       .order("created_at", { ascending: false })
       .limit(6)
-      .then(({ data }) => {
+      .then(async ({ data }) => {
         if (!active || !data || data.length === 0) return;
-        setNewsItems(
-          data.map((a) => ({
-            id: a.id,
-            title: a.title,
-            desc: a.body,
-            tag: a.category,
-            date: new Date(a.created_at).toLocaleDateString("en-PH", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            }),
-          })),
+        const items = await Promise.all(
+          data.map(async (a) => {
+            let image: string | null = null;
+            if (a.image_url) {
+              const { data: signed } = await supabase.storage
+                .from("announcements")
+                .createSignedUrl(a.image_url, 60 * 60);
+              image = signed?.signedUrl ?? null;
+            }
+            return {
+              id: a.id,
+              title: a.title,
+              desc: a.body,
+              tag: a.category,
+              image,
+              date: new Date(a.created_at).toLocaleDateString("en-PH", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              }),
+            };
+          }),
         );
+        if (active) setNewsItems(items);
       });
     return () => {
       active = false;
@@ -629,7 +643,11 @@ function Index() {
                 key={n.id}
                 className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
               >
-                <div className="flame-underline h-1.5 w-full" />
+                {n.image ? (
+                  <img src={n.image} alt={n.title} className="h-44 w-full object-cover" />
+                ) : (
+                  <div className="flame-underline h-1.5 w-full" />
+                )}
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-center gap-3 text-xs">
                     <span className="rounded-full bg-secondary px-2.5 py-1 font-bold uppercase tracking-wide text-primary">
