@@ -30,6 +30,7 @@ type Announcement = {
   category: string;
   published: boolean;
   created_at: string;
+  image_url: string | null;
 };
 
 const categories = ["Announcement", "Admissions", "Events", "Scholarship", "Academics"];
@@ -47,11 +48,14 @@ function AdminPage() {
   const [published, setPublished] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [existingImage, setExistingImage] = useState<string | null>(null);
 
   const loadItems = useCallback(async () => {
     const { data } = await supabase
       .from("announcements")
-      .select("id,title,body,category,published,created_at")
+      .select("id,title,body,category,published,created_at,image_url")
       .order("created_at", { ascending: false });
     setItems((data as Announcement[]) ?? []);
   }, []);
@@ -82,6 +86,20 @@ function AdminPage() {
     setBody("");
     setCategory(categories[0]!);
     setPublished(true);
+    setImageFile(null);
+    setImagePreview(null);
+    setExistingImage(null);
+  }
+
+  function pickImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0] ?? null;
+    if (f && f.size > 5 * 1024 * 1024) {
+      setError("Image must be 5 MB or smaller.");
+      return;
+    }
+    setImageFile(f);
+    setImagePreview(f ? URL.createObjectURL(f) : null);
+    if (f) setExistingImage(null);
   }
 
   async function claimAdmin() {
