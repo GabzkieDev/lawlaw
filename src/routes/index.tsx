@@ -2,8 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { MapPin, Mail, Facebook, Clock } from "lucide-react";
-import logoAsset from "@/assets/khens-logo.jpg.asset.json";
-import campusAsset from "@/assets/campus.jpg.asset.json";
+import logoAsset from "@/assets/OfficialLogo.png";
+import campusAsset from "@/assets/campus.jpg";
 import progBsed from "@/assets/prog-bsed.jpg";
 import progBeed from "@/assets/prog-beed.jpg";
 import progIt from "@/assets/prog-it.jpg";
@@ -27,14 +27,14 @@ export const Route = createFileRoute("/")({
           "Quality, accessible higher education in General Santos City. Learning Without Limits, Growing Without Bounds.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: `https://id-preview--5c3dac73-30d0-4982-a131-eacc591d227b.lovable.app${logoAsset.url}` },
+      { property: "og:image", content: `https://id-preview--5c3dac73-30d0-4982-a131-eacc591d227b.lovable.app${logoAsset}` },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Kolehiyo ng Heneral Santos" },
       {
         name: "twitter:description",
         content: "Quality, accessible higher education in General Santos City.",
       },
-      { name: "twitter:image", content: `https://id-preview--5c3dac73-30d0-4982-a131-eacc591d227b.lovable.app${logoAsset.url}` },
+      { name: "twitter:image", content: `https://id-preview--5c3dac73-30d0-4982-a131-eacc591d227b.lovable.app${logoAsset}` },
     ],
   }),
   component: Index,
@@ -271,7 +271,7 @@ function Index() {
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
           <a href="#home" className="flex items-center gap-3">
             <img
-              src={logoAsset.url}
+              src={logoAsset}
               alt="Kolehiyo ng Heneral Santos logo"
               className="h-11 w-11 rounded-full object-cover ring-2 ring-primary/20"
             />
@@ -358,7 +358,7 @@ function Index() {
       <section id="home" className="relative overflow-hidden">
         <div className="absolute inset-0 bg-primary" />
         <img
-          src={campusAsset.url}
+          src={campusAsset}
           alt="Kolehiyo ng Heneral Santos campus building"
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
@@ -409,7 +409,7 @@ function Index() {
             <div className="relative">
               <div className="absolute -inset-4 rounded-full bg-gold/20 blur-2xl" />
               <img
-                src={logoAsset.url}
+                src={logoAsset}
                 alt="Kolehiyo ng Heneral Santos official seal"
                 className="relative h-64 w-64 rounded-full object-cover ring-4 ring-primary-foreground/20 sm:h-80 sm:w-80"
               />
@@ -780,7 +780,7 @@ function Index() {
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3">
               <img
-                src={logoAsset.url}
+                src={logoAsset}
                 alt="Kolehiyo ng Heneral Santos logo"
                 className="h-12 w-12 rounded-full object-cover ring-2 ring-primary-foreground/20"
               />
