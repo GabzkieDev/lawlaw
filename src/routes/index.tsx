@@ -108,7 +108,7 @@ function Index() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [newsItems, setNewsItems] = useState<NewsItem[]>(fallbackNews);
-  const [openProgram, setOpenProgram] = useState<string | null>(null);
+  
 
   useEffect(() => {
     let active = true;
