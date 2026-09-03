@@ -436,10 +436,9 @@ function Index() {
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {programs.map((p) => {
-              const open = openProgram === p.title;
               return (
                 <article
-                  key={p.title}
+                  key={p.slug}
                   className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden">
@@ -457,47 +456,16 @@ function Index() {
                     <h3 className="font-display text-lg font-bold text-foreground">{p.title}</h3>
                     <p className="mt-2 flex-1 text-sm text-muted-foreground">{p.desc}</p>
 
-                    {open && (
-                      <div className="mt-4 space-y-3 rounded-xl bg-secondary p-4 text-sm">
-                        <p className="text-muted-foreground">
-                          <span className="font-bold text-foreground">Duration: </span>
-                          {p.duration}
-                        </p>
-                        <div>
-                          <p className="font-bold text-foreground">Majors / tracks</p>
-                          <ul className="mt-1 list-disc space-y-0.5 pl-5 text-muted-foreground">
-                            {p.majors.map((m) => (
-                              <li key={m}>{m}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <p className="font-bold text-foreground">Career paths</p>
-                          <ul className="mt-1 list-disc space-y-0.5 pl-5 text-muted-foreground">
-                            {p.careers.map((c) => (
-                              <li key={c}>{c}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        <p className="text-muted-foreground">{p.highlight}</p>
-                        <a
-                          href="#admissions"
-                          className="inline-flex items-center gap-1 font-bold text-flame"
-                        >
-                          Apply for this program <span aria-hidden="true">→</span>
-                        </a>
-                      </div>
-                    )}
-
-                    <button
-                      type="button"
-                      onClick={() => setOpenProgram(open ? null : p.title)}
-                      aria-expanded={open}
+                    <Link
+                      to="/program/$slug"
+                      params={{ slug: p.slug }}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="mt-4 inline-flex w-fit items-center gap-1 text-sm font-bold text-flame transition-all hover:gap-2"
                     >
-                      {open ? "Show less" : "Learn more"}
-                      <span aria-hidden="true">{open ? "↑" : "→"}</span>
-                    </button>
+                      Learn more
+                      <span aria-hidden="true">→</span>
+                    </Link>
                   </div>
                 </article>
               );
