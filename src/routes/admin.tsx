@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Trash2, Pencil, LogOut, Plus, ShieldCheck, ImagePlus } from "lucide-react";
-import logoAsset from "@/assets/khens-logo.jpg.asset.json";
+import logoAsset from "@/assets/OfficialLogo.png";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -205,7 +205,7 @@ function AdminPage() {
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-4">
           <div className="flex items-center gap-3">
-            <img src={logoAsset.url} alt="KHENS seal" className="h-10 w-10 rounded-full" />
+            <img src={logoAsset} alt="KHENS seal" className="h-10 w-10 rounded-full" />
             <div>
               <p className="font-display text-sm font-extrabold text-foreground">Announcement Manager</p>
               <p className="text-xs text-muted-foreground">{userEmail?.split("@")[0]}</p>

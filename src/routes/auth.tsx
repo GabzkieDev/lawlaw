@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import logoAsset from "@/assets/khens-logo.jpg.asset.json";
+import logoAsset from "@/assets/OfficialLogo.png";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -82,7 +82,7 @@ function AuthPage() {
     <main className="flex min-h-screen items-center justify-center bg-secondary px-4 py-16">
       <div className="w-full max-w-md rounded-3xl border border-border bg-card p-8 shadow-lg">
         <div className="flex flex-col items-center text-center">
-          <img src={logoAsset.url} alt="Kolehiyo ng Heneral Santos seal" className="h-20 w-20 rounded-full" />
+          <img src={logoAsset} alt="Kolehiyo ng Heneral Santos seal" className="h-20 w-20 rounded-full" />
           <h1 className="mt-4 font-display text-2xl font-extrabold text-foreground">Staff Portal</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Sign in to post announcements and campus updates.
