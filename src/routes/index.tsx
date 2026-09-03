@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { MapPin, Mail, Facebook, Clock } from "lucide-react";
-import logoAsset from "@/assets/khens-logo.jpg.asset.json";
+import logoAsset from "@/assets/khens-logo.png.asset.json";
 import campusAsset from "@/assets/campus.jpg.asset.json";
 import progBsed from "@/assets/prog-bsed.jpg";
 import progBeed from "@/assets/prog-beed.jpg";

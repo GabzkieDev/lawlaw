@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import logoAsset from "@/assets/khens-logo.jpg.asset.json";
+import logoAsset from "@/assets/khens-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
