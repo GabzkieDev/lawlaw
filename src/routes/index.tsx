@@ -4,12 +4,7 @@ import { useEffect, useState } from "react";
 import { MapPin, Mail, Facebook, Clock } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.png.asset.json";
 import campusAsset from "@/assets/campus.jpg.asset.json";
-import progBsed from "@/assets/prog-bsed.jpg";
-import progBeed from "@/assets/prog-beed.jpg";
-import progIt from "@/assets/prog-it.jpg";
-import progBusiness from "@/assets/prog-business.jpg";
-import progHospitality from "@/assets/prog-hospitality.jpg";
-import progAct from "@/assets/prog-act.jpg";
+import { programs } from "@/lib/programs";
 
 export const Route = createFileRoute("/")({
   head: () => ({
