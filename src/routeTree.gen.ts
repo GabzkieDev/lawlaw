@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as SuperadminRouteImport } from './routes/superadmin'
 import { Route as ProgramSlugRouteImport } from './routes/program/$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const PortfolioRoute = PortfolioRouteImport.update({
   path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperadminRoute = SuperadminRouteImport.update({
+  id: '/superadmin',
+  path: '/superadmin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProgramSlugRoute = ProgramSlugRouteImport.update({
   id: '/program/$slug',
   path: '/program/$slug',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/portfolio': typeof PortfolioRoute
+  '/superadmin': typeof SuperadminRoute
   '/program/$slug': typeof ProgramSlugRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/portfolio': typeof PortfolioRoute
+  '/superadmin': typeof SuperadminRoute
   '/program/$slug': typeof ProgramSlugRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,23 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/portfolio': typeof PortfolioRoute
+  '/superadmin': typeof SuperadminRoute
   '/program/$slug': typeof ProgramSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/auth' | '/portfolio' | '/program/$slug'
+  fullPaths:
+    '/' | '/admin' | '/auth' | '/portfolio' | '/superadmin' | '/program/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/auth' | '/portfolio' | '/program/$slug'
-  id: '__root__' | '/' | '/admin' | '/auth' | '/portfolio' | '/program/$slug'
+  to: '/' | '/admin' | '/auth' | '/portfolio' | '/superadmin' | '/program/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/portfolio'
+    | '/superadmin'
+    | '/program/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +93,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
   PortfolioRoute: typeof PortfolioRoute
+  SuperadminRoute: typeof SuperadminRoute
   ProgramSlugRoute: typeof ProgramSlugRoute
 }
 
@@ -109,6 +127,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/superadmin': {
+      id: '/superadmin'
+      path: '/superadmin'
+      fullPath: '/superadmin'
+      preLoaderRoute: typeof SuperadminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/program/$slug': {
       id: '/program/$slug'
       path: '/program/$slug'
@@ -124,6 +149,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
   PortfolioRoute: PortfolioRoute,
+  SuperadminRoute: SuperadminRoute,
   ProgramSlugRoute: ProgramSlugRoute,
 }
 export const routeTree = rootRouteImport
