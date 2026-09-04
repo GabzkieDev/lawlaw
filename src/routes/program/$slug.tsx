@@ -181,6 +181,59 @@ function ProgramPage() {
               </ul>
             </div>
 
+            <div>
+              <h2 className="font-display text-2xl font-bold text-foreground">
+                Year-by-year curriculum
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                What students take and experience each year of the program.
+              </p>
+              <div className="mt-6 space-y-6">
+                {program.years.map((y, i) => (
+                  <article
+                    key={y.year}
+                    className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm sm:flex"
+                  >
+                    <div className="relative sm:w-2/5">
+                      <img
+                        src={y.image}
+                        alt={y.alt}
+                        loading="lazy"
+                        width={1024}
+                        height={640}
+                        className="h-48 w-full object-cover sm:h-full"
+                      />
+                      <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-flame px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                        Year {i + 1}
+                      </span>
+                    </div>
+                    <div className="p-5 sm:w-3/5">
+                      <p className="text-xs font-bold uppercase tracking-wide text-flame">
+                        {y.year}
+                      </p>
+                      <h3 className="mt-1 font-display text-lg font-bold text-foreground">
+                        {y.title}
+                      </h3>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        {y.focus}
+                      </p>
+                      <ul className="mt-3 space-y-1.5">
+                        {y.subjects.map((s) => (
+                          <li
+                            key={s}
+                            className="flex items-start gap-2 text-sm text-foreground"
+                          >
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                            {s}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+
             <div className="rounded-2xl border border-border bg-secondary p-6">
               <h2 className="font-display text-lg font-bold text-foreground">
                 Ready to enroll?
