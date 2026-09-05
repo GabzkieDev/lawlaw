@@ -20,6 +20,22 @@ export type YearPlan = {
   alt: string;
 };
 
+export type ProgramEvent = {
+  date: string; // ISO date
+  title: string;
+  detail: string;
+  location: string;
+};
+
+export function formatEventDate(iso: string): string {
+  const d = new Date(`${iso}T00:00:00`);
+  return d.toLocaleDateString("en-PH", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 export type Program = {
   slug: string;
   title: string;
@@ -32,6 +48,7 @@ export type Program = {
   careers: string[];
   highlight: string;
   years: YearPlan[];
+  events: ProgramEvent[];
 };
 
 function withImages(
@@ -86,6 +103,12 @@ export const programs: Program[] = [
       ],
       "Bachelor of Secondary Education",
     ),
+    events: [
+      { date: "2026-09-18", title: "Teaching Demonstration Day", detail: "Third and fourth year students deliver graded demo lessons before faculty panels.", location: "AVR Building, Main Campus" },
+      { date: "2026-10-05", title: "World Teachers' Day Celebration", detail: "Program-wide parade, tribute to cooperating teachers, and student showcase.", location: "KHENS Quadrangle" },
+      { date: "2026-11-14", title: "LET Mock Board Examination", detail: "Full-length licensure simulation with results coaching for graduating students.", location: "Education Building Rooms 201–205" },
+      { date: "2027-01-23", title: "Student Teaching Deployment Orientation", detail: "Briefing with partner public schools before off-campus practice teaching.", location: "College Auditorium" },
+    ],
   },
   {
     slug: "beed",
@@ -127,6 +150,12 @@ export const programs: Program[] = [
       ],
       "Bachelor of Elementary Education",
     ),
+    events: [
+      { date: "2026-09-26", title: "Children's Literature Festival", detail: "Story-telling and instructional materials exhibit for Calumpang pupils.", location: "KHENS Gymnasium" },
+      { date: "2026-10-17", title: "Field Study Immersion Week", detail: "Classroom observation rounds in partner elementary schools.", location: "Calumpang Central Elementary School" },
+      { date: "2026-12-04", title: "Inclusive Education Seminar", detail: "Workshop on handling learners with special needs, led by DepEd SPED specialists.", location: "College Auditorium" },
+      { date: "2027-02-20", title: "Action Research Colloquium", detail: "Fourth year students defend their classroom action research studies.", location: "Education Building Function Hall" },
+    ],
   },
   {
     slug: "bsit",
@@ -168,6 +197,12 @@ export const programs: Program[] = [
       ],
       "BS in Information Technology",
     ),
+    events: [
+      { date: "2026-09-12", title: "IT Skills Bootcamp", detail: "Two-day hands-on training on modern web and mobile development stacks.", location: "Computer Laboratory 1 & 2" },
+      { date: "2026-10-24", title: "Hackathon: Code for GenSan", detail: "24-hour team competition building digital solutions for the city.", location: "Innovation Hub, Main Campus" },
+      { date: "2026-11-28", title: "Industry Immersion Day", detail: "Talks and on-the-spot interviews with SOCCSKSARGEN tech companies.", location: "College Auditorium" },
+      { date: "2027-03-13", title: "Capstone Project Exhibit & Defense", detail: "Public demo and panel defense of graduating students' capstone systems.", location: "IT Building Exhibit Area" },
+    ],
   },
   {
     slug: "bsba",
@@ -209,6 +244,12 @@ export const programs: Program[] = [
       ],
       "BS in Business Administration",
     ),
+    events: [
+      { date: "2026-09-19", title: "Entrepreneurship Summit", detail: "Talks from GenSan business owners on starting and scaling a venture.", location: "College Auditorium" },
+      { date: "2026-10-30", title: "Trade Fair: Tindahan ng Kolehiyo", detail: "Student-run booths selling products from their business plans.", location: "KHENS Quadrangle" },
+      { date: "2026-12-11", title: "Financial Literacy Week", detail: "Sessions on budgeting, investing, and MSME bookkeeping.", location: "Business Building Function Hall" },
+      { date: "2027-03-06", title: "Business Plan Competition Finals", detail: "Capstone pitches judged by local entrepreneurs and bank executives.", location: "College Auditorium" },
+    ],
   },
   {
     slug: "bshm",
@@ -250,6 +291,12 @@ export const programs: Program[] = [
       ],
       "BS in Hospitality Management",
     ),
+    events: [
+      { date: "2026-09-25", title: "Culinary Skills Olympics", detail: "Timed cooking and plating competition among year levels.", location: "Training Kitchen, HM Building" },
+      { date: "2026-11-07", title: "Hotel Operations Simulation", detail: "Full-day mock hotel service using the campus front office and mock rooms.", location: "HM Building Mock Hotel" },
+      { date: "2026-12-12", title: "Tourism and Events Expo", detail: "Student-organized events showcase featuring local tourism partners.", location: "KHENS Gymnasium" },
+      { date: "2027-02-27", title: "Practicum Deployment Briefing", detail: "Orientation for local and overseas hotel and restaurant practicum.", location: "College Auditorium" },
+    ],
   },
   {
     slug: "act",
@@ -279,6 +326,12 @@ export const programs: Program[] = [
       ],
       "Associate in Computer Technology",
     ),
+    events: [
+      { date: "2026-09-11", title: "PC Assembly and Troubleshooting Contest", detail: "Speed-build and repair challenge for first and second year students.", location: "Computer Laboratory 3" },
+      { date: "2026-10-16", title: "Office Productivity Certification Drive", detail: "Review and testing day for spreadsheet and document processing certificates.", location: "Computer Laboratory 1" },
+      { date: "2026-12-05", title: "Networking Basics Workshop", detail: "Hands-on cabling, router configuration, and small network setup.", location: "IT Building Network Lab" },
+      { date: "2027-03-20", title: "On-the-Job Training Orientation", detail: "Placement briefing with partner shops and offices in General Santos City.", location: "College Auditorium" },
+    ],
   },
 ];
 

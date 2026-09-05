@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { MapPin, Mail, Facebook, Clock } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.png.asset.json";
 import campusAsset from "@/assets/campus.jpg.asset.json";
-import { programs } from "@/lib/programs";
+import { programs, formatEventDate } from "@/lib/programs";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -456,6 +456,20 @@ function Index() {
                   <div className="flex flex-1 flex-col p-6">
                     <h3 className="font-display text-lg font-bold text-foreground">{p.title}</h3>
                     <p className="mt-2 flex-1 text-sm text-muted-foreground">{p.desc}</p>
+
+                    {p.events[0] ? (
+                      <div className="mt-4 rounded-xl bg-secondary p-3">
+                        <p className="text-xs font-bold uppercase tracking-wide text-flame">
+                          Next event
+                        </p>
+                        <p className="mt-1 text-sm font-semibold text-foreground">
+                          {p.events[0].title}
+                        </p>
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                          {formatEventDate(p.events[0].date)} &middot; {p.events[0].location}
+                        </p>
+                      </div>
+                    ) : null}
 
                     <Link
                       to="/program/$slug"
