@@ -8,6 +8,13 @@
       "when": 1788504198279,
       "tag": "0000_superadmin_and_visits",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788614456530,
+      "tag": "0001_superadmin_grants",
+      "breakpoints": true
     }
   ]
 }
