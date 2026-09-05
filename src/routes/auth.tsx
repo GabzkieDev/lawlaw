@@ -26,6 +26,7 @@ export const Route = createFileRoute("/auth")({
 });
 
 const ADMIN_USERNAME = "kolehiyo-admin";
+const SUPERADMIN_USERNAME = "khs-superadmin";
 const emailFor = (username: string) => `${username.trim().toLowerCase()}@khens.local`;
 
 function AuthPage() {
