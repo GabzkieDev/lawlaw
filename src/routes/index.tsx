@@ -5,7 +5,6 @@ import { MapPin, Mail, Facebook, Clock } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.png.asset.json";
 import campusAsset from "@/assets/campus.jpg.asset.json";
 import { programs } from "@/lib/programs";
-import { recordVisit } from "@/lib/analytics.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
