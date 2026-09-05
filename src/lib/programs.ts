@@ -151,7 +151,7 @@ export const programs: Program[] = [
       "Bachelor of Elementary Education",
     ),
     events: [
-      { date: "2026-09-26", title: "Children"s Literature Festival", detail: "Story-telling and instructional materials exhibit for Calumpang pupils.", location: "KHENS Gymnasium" },
+      { date: "2026-09-26", title: "Children's Literature Festival", detail: "Story-telling and instructional materials exhibit for Calumpang pupils.", location: "KHENS Gymnasium" },
       { date: "2026-10-17", title: "Field Study Immersion Week", detail: "Classroom observation rounds in partner elementary schools.", location: "Calumpang Central Elementary School" },
       { date: "2026-12-04", title: "Inclusive Education Seminar", detail: "Workshop on handling learners with special needs, led by DepEd SPED specialists.", location: "College Auditorium" },
       { date: "2027-02-20", title: "Action Research Colloquium", detail: "Fourth year students defend their classroom action research studies.", location: "Education Building Function Hall" },
@@ -201,7 +201,7 @@ export const programs: Program[] = [
       { date: "2026-09-12", title: "IT Skills Bootcamp", detail: "Two-day hands-on training on modern web and mobile development stacks.", location: "Computer Laboratory 1 & 2" },
       { date: "2026-10-24", title: "Hackathon: Code for GenSan", detail: "24-hour team competition building digital solutions for the city.", location: "Innovation Hub, Main Campus" },
       { date: "2026-11-28", title: "Industry Immersion Day", detail: "Talks and on-the-spot interviews with SOCCSKSARGEN tech companies.", location: "College Auditorium" },
-      { date: "2027-03-13", title: "Capstone Project Exhibit & Defense", detail: "Public demo and panel defense of graduating students" capstone systems.", location: "IT Building Exhibit Area" },
+      { date: "2027-03-13", title: "Capstone Project Exhibit & Defense", detail: "Public demo and panel defense of graduating students' capstone systems.", location: "IT Building Exhibit Area" },
     ],
   },
   {
