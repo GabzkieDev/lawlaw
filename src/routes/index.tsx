@@ -152,11 +152,6 @@ function Index() {
   }, []);
 
 
-  useEffect(() => {
-    if (sessionStorage.getItem("khens-visit-logged")) return;
-    sessionStorage.setItem("khens-visit-logged", "1");
-    void recordVisit({ data: { path: window.location.pathname } }).catch(() => {});
-  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
