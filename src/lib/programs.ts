@@ -105,7 +105,7 @@ export const programs: Program[] = [
     ),
     events: [
       { date: "2026-09-18", title: "Teaching Demonstration Day", detail: "Third and fourth year students deliver graded demo lessons before faculty panels.", location: "AVR Building, Main Campus" },
-      { date: "2026-10-05", title: "World Teachers" Day Celebration", detail: "Program-wide parade, tribute to cooperating teachers, and student showcase.", location: "KHENS Quadrangle" },
+      { date: "2026-10-05", title: "World Teachers' Day Celebration", detail: "Program-wide parade, tribute to cooperating teachers, and student showcase.", location: "KHENS Quadrangle" },
       { date: "2026-11-14", title: "LET Mock Board Examination", detail: "Full-length licensure simulation with results coaching for graduating students.", location: "Education Building Rooms 201–205" },
       { date: "2027-01-23", title: "Student Teaching Deployment Orientation", detail: "Briefing with partner public schools before off-campus practice teaching.", location: "College Auditorium" },
     ],
@@ -153,7 +153,7 @@ export const programs: Program[] = [
     events: [
       { date: "2026-09-26", title: "Children"s Literature Festival", detail: "Story-telling and instructional materials exhibit for Calumpang pupils.", location: "KHENS Gymnasium" },
       { date: "2026-10-17", title: "Field Study Immersion Week", detail: "Classroom observation rounds in partner elementary schools.", location: "Calumpang Central Elementary School" },
-      { date: "2026-12-04", title: "Inclusive Education Seminar", detail: "Workshop on handling learners with special needs, led by DepEd SPED specialists.", location: " College Auditorium" },
+      { date: "2026-12-04", title: "Inclusive Education Seminar", detail: "Workshop on handling learners with special needs, led by DepEd SPED specialists.", location: "College Auditorium" },
       { date: "2027-02-20", title: "Action Research Colloquium", detail: "Fourth year students defend their classroom action research studies.", location: "Education Building Function Hall" },
     ],
   },
