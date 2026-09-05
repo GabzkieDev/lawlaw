@@ -121,13 +121,29 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function VisitTracker() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    if (/^\/(admin|superadmin|auth)/.test(pathname)) return;
+    const key = `khens-visit:${pathname}`;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    void recordVisit({ data: { path: pathname } }).catch(() => {});
+  }, [pathname]);
+
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <VisitTracker />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
   );
 }
+
