@@ -234,6 +234,50 @@ function ProgramPage() {
               </div>
             </div>
 
+            <div>
+              <h2 className="font-display text-2xl font-bold text-foreground">
+                Program events &amp; activities
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Key activities scheduled for this program this academic year.
+              </p>
+              <ol className="mt-6 space-y-4">
+                {program.events.map((e) => (
+                  <li
+                    key={e.title}
+                    className="flex gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm"
+                  >
+                    <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                      <span className="text-xs font-bold uppercase">
+                        {new Date(`${e.date}T00:00:00`).toLocaleDateString("en-PH", { month: "short" })}
+                      </span>
+                      <span className="font-display text-xl font-bold leading-none">
+                        {new Date(`${e.date}T00:00:00`).getDate()}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-display text-base font-bold text-foreground">
+                        {e.title}
+                      </h3>
+                      <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold text-flame">
+                        <span className="inline-flex items-center gap-1">
+                          <CalendarDays className="h-3.5 w-3.5" />
+                          {formatEventDate(e.date)}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-muted-foreground">
+                          <MapPin className="h-3.5 w-3.5" />
+                          {e.location}
+                        </span>
+                      </p>
+                      <p className="mt-2 text-sm text-muted-foreground">{e.detail}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+
+
             <div className="rounded-2xl border border-border bg-secondary p-6">
               <h2 className="font-display text-lg font-bold text-foreground">
                 Ready to enroll?
