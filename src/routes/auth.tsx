@@ -55,12 +55,17 @@ function AuthPage() {
       const email = emailFor(user);
       let { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
 
-      // First-time setup: create the single maintainer account on first successful login attempt.
-      if (signInError && user === ADMIN_USERNAME) {
+      // First-time setup: create the maintainer / super admin account on first login attempt.
+      if (signInError && (user === ADMIN_USERNAME || user === SUPERADMIN_USERNAME)) {
         const { error: signUpError } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { full_name: "KHENS Administrator" } },
+          options: {
+            data: {
+              full_name:
+                user === SUPERADMIN_USERNAME ? "KHENS Super Administrator" : "KHENS Administrator",
+            },
+          },
         });
         if (!signUpError) {
           ({ error: signInError } = await supabase.auth.signInWithPassword({ email, password }));
@@ -69,6 +74,11 @@ function AuthPage() {
 
       if (signInError) {
         setError("Incorrect username or password.");
+        return;
+      }
+      if (user === SUPERADMIN_USERNAME) {
+        await supabase.rpc("claim_superadmin");
+        navigate({ to: "/superadmin" });
         return;
       }
       navigate({ to: "/admin" });
