@@ -71,6 +71,57 @@ export type Database = {
         }
         Relationships: []
       }
+      program_admins: {
+        Row: {
+          created_at: string
+          program_slug: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          program_slug: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          program_slug?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      program_events: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          detail: string
+          event_date: string
+          id: string
+          location: string
+          program_slug: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          detail?: string
+          event_date: string
+          id?: string
+          location?: string
+          program_slug: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          detail?: string
+          event_date?: string
+          id?: string
+          location?: string
+          program_slug?: string
+          title?: string
+        }
+        Relationships: []
+      }
       site_visits: {
         Row: {
           city: string | null
@@ -140,12 +191,17 @@ export type Database = {
     }
     Functions: {
       claim_first_admin: { Args: never; Returns: boolean }
+      claim_program_admin: { Args: never; Returns: string }
       claim_superadmin: { Args: never; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_program_admin: {
+        Args: { _slug: string; _user_id: string }
         Returns: boolean
       }
       is_superadmin: { Args: { _user_id: string }; Returns: boolean }

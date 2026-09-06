@@ -15,6 +15,13 @@
       "when": 1788614456530,
       "tag": "0001_superadmin_grants",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788702337557,
+      "tag": "0002_program_admins_and_events",
+      "breakpoints": true
     }
   ]
 }
