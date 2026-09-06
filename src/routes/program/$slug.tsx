@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { MapPin, Mail, Facebook, Clock, ArrowLeft, CheckCircle2, CalendarDays } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.png.asset.json";
-import { programs, getProgramBySlug, formatEventDate } from "@/lib/programs";
+import { supabase } from "@/integrations/supabase/client";
+import { programs, getProgramBySlug, formatEventDate, type ProgramEvent } from "@/lib/programs";
 
 export const Route = createFileRoute("/program/$slug")({
   head: ({ params }) => {
