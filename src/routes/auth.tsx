@@ -68,15 +68,19 @@ function AuthPage() {
       const email = emailFor(user);
       let { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
 
-      // First-time setup: create the maintainer / super admin account on first login attempt.
-      if (signInError && (user === ADMIN_USERNAME || user === SUPERADMIN_USERNAME)) {
+      // First-time setup: create the maintainer / super admin / course accounts on first login attempt.
+      const course = COURSE_ACCOUNTS[user];
+      if (signInError && (user === ADMIN_USERNAME || user === SUPERADMIN_USERNAME || course)) {
         const { error: signUpError } = await supabase.auth.signUp({
           email,
           password,
           options: {
             data: {
               full_name:
-                user === SUPERADMIN_USERNAME ? "KHENS Super Administrator" : "KHENS Administrator",
+                course?.name ??
+                (user === SUPERADMIN_USERNAME
+                  ? "KHENS Super Administrator"
+                  : "KHENS Administrator"),
             },
           },
         });
@@ -92,6 +96,11 @@ function AuthPage() {
       if (user === SUPERADMIN_USERNAME) {
         await supabase.rpc("claim_superadmin");
         navigate({ to: "/superadmin" });
+        return;
+      }
+      if (course) {
+        await supabase.rpc("claim_program_admin");
+        navigate({ to: "/course-admin" });
         return;
       }
       navigate({ to: "/admin" });
