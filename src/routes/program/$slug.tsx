@@ -273,9 +273,9 @@ function ProgramPage() {
                 Key activities scheduled for this program this academic year.
               </p>
               <ol className="mt-6 space-y-4">
-                {program.events.map((e) => (
+                {allEvents.map((e) => (
                   <li
-                    key={e.title}
+                    key={`${e.date}-${e.title}`}
                     className="flex gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm"
                   >
                     <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-primary text-primary-foreground">
