@@ -50,10 +50,39 @@ function ProgramNotFound() {
 function ProgramPage() {
   const { slug } = Route.useParams();
   const program = getProgramBySlug(slug);
+  const [dbEvents, setDbEvents] = useState<ProgramEvent[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    supabase
+      .from("program_events")
+      .select("id, title, detail, location, event_date")
+      .eq("program_slug", slug)
+      .order("event_date", { ascending: true })
+      .then(({ data }) => {
+        if (!active || !data) return;
+        setDbEvents(
+          data.map((e) => ({
+            date: e.event_date,
+            title: e.title,
+            detail: e.detail,
+            location: e.location,
+          })),
+        );
+      });
+    return () => {
+      active = false;
+    };
+  }, [slug]);
 
   if (!program) {
     return <ProgramNotFound />;
   }
+
+  const allEvents = [...program.events, ...dbEvents].sort((a, b) =>
+    a.date.localeCompare(b.date),
+  );
+
 
   return (
     <div className="min-h-screen bg-background">
