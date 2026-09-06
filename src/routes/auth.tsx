@@ -27,6 +27,14 @@ export const Route = createFileRoute("/auth")({
 
 const ADMIN_USERNAME = "kolehiyo-admin";
 const SUPERADMIN_USERNAME = "khs-superadmin";
+const COURSE_ACCOUNTS: Record<string, { slug: string; name: string }> = {
+  "khs-bsit": { slug: "bsit", name: "BSIT Program Coordinator" },
+  "khs-bsed": { slug: "bsed", name: "BSEd Program Coordinator" },
+  "khs-beed": { slug: "beed", name: "BEEd Program Coordinator" },
+  "khs-bsba": { slug: "bsba", name: "BSBA Program Coordinator" },
+  "khs-bshm": { slug: "bshm", name: "BSHM Program Coordinator" },
+  "khs-act": { slug: "act", name: "ACT Program Coordinator" },
+};
 const emailFor = (username: string) => `${username.trim().toLowerCase()}@khens.local`;
 
 function AuthPage() {
@@ -38,7 +46,12 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/admin" });
+      const email = data.session?.user.email ?? "";
+      if (!email) return;
+      const user = email.split("@")[0] ?? "";
+      if (user === SUPERADMIN_USERNAME) navigate({ to: "/superadmin" });
+      else if (COURSE_ACCOUNTS[user]) navigate({ to: "/course-admin" });
+      else navigate({ to: "/admin" });
     });
   }, [navigate]);
 
