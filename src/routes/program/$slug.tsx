@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { MapPin, Mail, Facebook, Clock, ArrowLeft, CheckCircle2, CalendarDays } from "lucide-react";
 import logoAsset from "@/assets/khens-logo.png.asset.json";
-import { programs, getProgramBySlug, formatEventDate } from "@/lib/programs";
+import { supabase } from "@/integrations/supabase/client";
+import { programs, getProgramBySlug, formatEventDate, type ProgramEvent } from "@/lib/programs";
 
 export const Route = createFileRoute("/program/$slug")({
   head: ({ params }) => {
@@ -48,10 +50,39 @@ function ProgramNotFound() {
 function ProgramPage() {
   const { slug } = Route.useParams();
   const program = getProgramBySlug(slug);
+  const [dbEvents, setDbEvents] = useState<ProgramEvent[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    supabase
+      .from("program_events")
+      .select("id, title, detail, location, event_date")
+      .eq("program_slug", slug)
+      .order("event_date", { ascending: true })
+      .then(({ data }) => {
+        if (!active || !data) return;
+        setDbEvents(
+          data.map((e) => ({
+            date: e.event_date,
+            title: e.title,
+            detail: e.detail,
+            location: e.location,
+          })),
+        );
+      });
+    return () => {
+      active = false;
+    };
+  }, [slug]);
 
   if (!program) {
     return <ProgramNotFound />;
   }
+
+  const allEvents = [...program.events, ...dbEvents].sort((a, b) =>
+    a.date.localeCompare(b.date),
+  );
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -242,9 +273,9 @@ function ProgramPage() {
                 Key activities scheduled for this program this academic year.
               </p>
               <ol className="mt-6 space-y-4">
-                {program.events.map((e) => (
+                {allEvents.map((e) => (
                   <li
-                    key={e.title}
+                    key={`${e.date}-${e.title}`}
                     className="flex gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm"
                   >
                     <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-primary text-primary-foreground">
