@@ -10,6 +10,8 @@ import progIt from "@/assets/prog-it.jpg";
 import progBusiness from "@/assets/prog-business.jpg";
 import progHospitality from "@/assets/prog-hospitality.jpg";
 import progAct from "@/assets/prog-act.jpg";
+import { programs, formatEventDate } from "@/lib/programs";
+>>>>>>> d7f72389cfc9a43f98d25df721d25b63b51b60da
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -49,74 +51,6 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
-const programs = [
-  {
-    title: "Bachelor of Secondary Education",
-    desc: "Major in English, Filipino, Mathematics, and Science. Shape the next generation of educators.",
-    tag: "Education",
-    image: progBsed,
-    alt: "Education students in a classroom discussion at Kolehiyo ng Heneral Santos",
-    duration: "4 years (8 semesters)",
-    majors: ["English", "Filipino", "Mathematics", "Science"],
-    careers: ["Junior/Senior High School Teacher", "Curriculum Writer", "Academic Coordinator"],
-    highlight: "Includes 1 semester of supervised student teaching in partner public schools and LET review.",
-  },
-  {
-    title: "Bachelor of Elementary Education",
-    desc: "Foundational teacher training for early-grade instruction across the core learning areas.",
-    tag: "Education",
-    image: progBeed,
-    alt: "Elementary education students practicing classroom teaching",
-    duration: "4 years (8 semesters)",
-    majors: ["Generalist", "Early Childhood Education", "Special Needs Education"],
-    careers: ["Elementary Teacher", "Daycare/Preschool Head", "Learning Support Specialist"],
-    highlight: "Field study starts as early as second year, with hands-on practice in Calumpang schools.",
-  },
-  {
-    title: "BS in Information Technology",
-    desc: "Programming, networking, and systems management for the digital economy of SOCCSKSARGEN.",
-    tag: "Technology",
-    image: progIt,
-    alt: "Information technology students working on computers in the campus laboratory",
-    duration: "4 years (8 semesters)",
-    majors: ["Web & Mobile Development", "Network Administration", "Database Systems"],
-    careers: ["Software Developer", "Network Engineer", "IT Support Specialist", "Systems Analyst"],
-    highlight: "486 hours of industry internship plus preparation for global IT certifications.",
-  },
-  {
-    title: "BS in Business Administration",
-    desc: "Management, marketing, and finance tracks that build tomorrow's local entrepreneurs.",
-    tag: "Business",
-    image: progBusiness,
-    alt: "Business administration students in a group presentation",
-    duration: "4 years (8 semesters)",
-    majors: ["Marketing Management", "Financial Management", "Human Resource Management"],
-    careers: ["Business Owner", "Marketing Officer", "HR Associate", "Bank Operations Staff"],
-    highlight: "Capstone business plan competition judged by GenSan entrepreneurs and industry leaders.",
-  },
-  {
-    title: "BS in Hospitality Management",
-    desc: "Hotel, restaurant, and tourism operations training anchored on GenSan's thriving industry.",
-    tag: "Hospitality",
-    image: progHospitality,
-    alt: "Hospitality management students in uniform during hotel and restaurant training",
-    duration: "4 years (8 semesters)",
-    majors: ["Hotel Operations", "Food & Beverage Services", "Tourism & Events"],
-    careers: ["Hotel Supervisor", "Restaurant Manager", "Cruise Ship Crew", "Events Organizer"],
-    highlight: "On-campus training kitchen and mock hotel rooms, plus local and overseas practicum options.",
-  },
-  {
-    title: "Associate in Computer Technology",
-    desc: "A two-year ladderized pathway into IT careers and further degree studies.",
-    tag: "Technology",
-    image: progAct,
-    alt: "Computer technology students assembling and troubleshooting hardware",
-    duration: "2 years (4 semesters), ladderized",
-    majors: ["Computer Hardware Servicing", "Office Productivity", "Basic Programming"],
-    careers: ["Computer Technician", "Encoder/Data Staff", "Junior IT Support"],
-    highlight: "Credits fully transfer into the BS Information Technology program after graduation.",
-  },
-];
 
 const stats = [
   { value: "20+", label: "Degree & associate programs" },
@@ -181,7 +115,7 @@ function Index() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [newsItems, setNewsItems] = useState<NewsItem[]>(fallbackNews);
-  const [openProgram, setOpenProgram] = useState<string | null>(null);
+  
 
   useEffect(() => {
     let active = true;
@@ -222,6 +156,7 @@ function Index() {
       active = false;
     };
   }, []);
+
 
 
   useEffect(() => {
@@ -509,13 +444,12 @@ function Index() {
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {programs.map((p) => {
-              const open = openProgram === p.title;
               return (
                 <article
-                  key={p.title}
+                  key={p.slug}
                   className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden">
+                  <div className="relative aspect-16/10 overflow-hidden">
                     <img
                       src={p.image}
                       alt={p.alt}
@@ -530,47 +464,30 @@ function Index() {
                     <h3 className="font-display text-lg font-bold text-foreground">{p.title}</h3>
                     <p className="mt-2 flex-1 text-sm text-muted-foreground">{p.desc}</p>
 
-                    {open && (
-                      <div className="mt-4 space-y-3 rounded-xl bg-secondary p-4 text-sm">
-                        <p className="text-muted-foreground">
-                          <span className="font-bold text-foreground">Duration: </span>
-                          {p.duration}
+                    {p.events[0] ? (
+                      <div className="mt-4 rounded-xl bg-secondary p-3">
+                        <p className="text-xs font-bold uppercase tracking-wide text-flame">
+                          Next event
                         </p>
-                        <div>
-                          <p className="font-bold text-foreground">Majors / tracks</p>
-                          <ul className="mt-1 list-disc space-y-0.5 pl-5 text-muted-foreground">
-                            {p.majors.map((m) => (
-                              <li key={m}>{m}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <p className="font-bold text-foreground">Career paths</p>
-                          <ul className="mt-1 list-disc space-y-0.5 pl-5 text-muted-foreground">
-                            {p.careers.map((c) => (
-                              <li key={c}>{c}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        <p className="text-muted-foreground">{p.highlight}</p>
-                        <a
-                          href="#admissions"
-                          className="inline-flex items-center gap-1 font-bold text-flame"
-                        >
-                          Apply for this program <span aria-hidden="true">→</span>
-                        </a>
+                        <p className="mt-1 text-sm font-semibold text-foreground">
+                          {p.events[0].title}
+                        </p>
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                          {formatEventDate(p.events[0].date)} &middot; {p.events[0].location}
+                        </p>
                       </div>
-                    )}
+                    ) : null}
 
-                    <button
-                      type="button"
-                      onClick={() => setOpenProgram(open ? null : p.title)}
-                      aria-expanded={open}
+                    <Link
+                      to="/program/$slug"
+                      params={{ slug: p.slug }}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="mt-4 inline-flex w-fit items-center gap-1 text-sm font-bold text-flame transition-all hover:gap-2"
                     >
-                      {open ? "Show less" : "Learn more"}
-                      <span aria-hidden="true">{open ? "↑" : "→"}</span>
-                    </button>
+                      Learn more
+                      <span aria-hidden="true">→</span>
+                    </Link>
                   </div>
                 </article>
               );
@@ -609,7 +526,7 @@ function Index() {
           <ol className="relative space-y-6 border-l-2 border-border pl-8">
             {admissionsSteps.map((s) => (
               <li key={s.step} className="relative">
-                <span className="absolute -left-[2.4rem] flex h-10 w-10 items-center justify-center rounded-full bg-primary font-display text-sm font-bold text-primary-foreground ring-4 ring-background">
+                <span className="absolute -left-[2.4rem]' flex h-10 w-10 items-center justify-center rounded-full bg-primary font-display text-sm font-bold text-primary-foreground ring-4 ring-background">
                   {s.step}
                 </span>
                 <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
@@ -657,9 +574,8 @@ function Index() {
                   </div>
                   <h3 className="mt-3 font-display text-lg font-bold text-foreground">{n.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground">{n.desc}</p>
-                  <a href="#news" className="mt-4 text-sm font-bold text-flame hover:underline">
-                    Read more →
-                  </a>
+
+
                 </div>
               </article>
             ))}
@@ -709,7 +625,7 @@ function Index() {
                         href={row.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="break-words text-sm font-semibold text-flame hover:underline"
+                        className="wrap-break-words text-sm font-semibold text-flame hover:underline"
                       >
                         {row.v}
                       </a>

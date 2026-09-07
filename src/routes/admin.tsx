@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Trash2, Pencil, LogOut, Plus, ShieldCheck, ImagePlus } from "lucide-react";
 import logoAsset from "@/assets/OfficialLogo.png";
 
+>>>>>>> d7f72389cfc9a43f98d25df721d25b63b51b60da
+
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [

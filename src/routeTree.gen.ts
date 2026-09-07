@@ -12,7 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CourseAdminRouteImport } from './routes/course-admin'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as SuperadminRouteImport } from './routes/superadmin'
+import { Route as ProgramSlugRouteImport } from './routes/program/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,9 +32,24 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CourseAdminRoute = CourseAdminRouteImport.update({
+  id: '/course-admin',
+  path: '/course-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperadminRoute = SuperadminRouteImport.update({
+  id: '/superadmin',
+  path: '/superadmin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramSlugRoute = ProgramSlugRouteImport.update({
+  id: '/program/$slug',
+  path: '/program/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -39,34 +57,68 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/course-admin': typeof CourseAdminRoute
   '/portfolio': typeof PortfolioRoute
+  '/superadmin': typeof SuperadminRoute
+  '/program/$slug': typeof ProgramSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/course-admin': typeof CourseAdminRoute
   '/portfolio': typeof PortfolioRoute
+  '/superadmin': typeof SuperadminRoute
+  '/program/$slug': typeof ProgramSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/course-admin': typeof CourseAdminRoute
   '/portfolio': typeof PortfolioRoute
+  '/superadmin': typeof SuperadminRoute
+  '/program/$slug': typeof ProgramSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/auth' | '/portfolio'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/course-admin'
+    | '/portfolio'
+    | '/superadmin'
+    | '/program/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/auth' | '/portfolio'
-  id: '__root__' | '/' | '/admin' | '/auth' | '/portfolio'
+  to:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/course-admin'
+    | '/portfolio'
+    | '/superadmin'
+    | '/program/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/course-admin'
+    | '/portfolio'
+    | '/superadmin'
+    | '/program/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
+  CourseAdminRoute: typeof CourseAdminRoute
   PortfolioRoute: typeof PortfolioRoute
+  SuperadminRoute: typeof SuperadminRoute
+  ProgramSlugRoute: typeof ProgramSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,11 +144,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/course-admin': {
+      id: '/course-admin'
+      path: '/course-admin'
+      fullPath: '/course-admin'
+      preLoaderRoute: typeof CourseAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portfolio': {
       id: '/portfolio'
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/superadmin': {
+      id: '/superadmin'
+      path: '/superadmin'
+      fullPath: '/superadmin'
+      preLoaderRoute: typeof SuperadminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/program/$slug': {
+      id: '/program/$slug'
+      path: '/program/$slug'
+      fullPath: '/program/$slug'
+      preLoaderRoute: typeof ProgramSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -106,7 +179,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
+  CourseAdminRoute: CourseAdminRoute,
   PortfolioRoute: PortfolioRoute,
+  SuperadminRoute: SuperadminRoute,
+  ProgramSlugRoute: ProgramSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

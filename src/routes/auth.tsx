@@ -1,7 +1,11 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+<<<<<<< HEAD
 import logoAsset from "@/assets/OfficialLogo.png";
+=======
+import logoAsset from "@/assets/khens-logo.png.asset.json";
+>>>>>>> d7f72389cfc9a43f98d25df721d25b63b51b60da
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -26,6 +30,15 @@ export const Route = createFileRoute("/auth")({
 });
 
 const ADMIN_USERNAME = "kolehiyo-admin";
+const SUPERADMIN_USERNAME = "khs-superadmin";
+const COURSE_ACCOUNTS: Record<string, { slug: string; name: string }> = {
+  "khs-bsit": { slug: "bsit", name: "BSIT Program Coordinator" },
+  "khs-bsed": { slug: "bsed", name: "BSEd Program Coordinator" },
+  "khs-beed": { slug: "beed", name: "BEEd Program Coordinator" },
+  "khs-bsba": { slug: "bsba", name: "BSBA Program Coordinator" },
+  "khs-bshm": { slug: "bshm", name: "BSHM Program Coordinator" },
+  "khs-act": { slug: "act", name: "ACT Program Coordinator" },
+};
 const emailFor = (username: string) => `${username.trim().toLowerCase()}@khens.local`;
 
 function AuthPage() {
@@ -37,7 +50,12 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/admin" });
+      const email = data.session?.user.email ?? "";
+      if (!email) return;
+      const user = email.split("@")[0] ?? "";
+      if (user === SUPERADMIN_USERNAME) navigate({ to: "/superadmin" });
+      else if (COURSE_ACCOUNTS[user]) navigate({ to: "/course-admin" });
+      else navigate({ to: "/admin" });
     });
   }, [navigate]);
 
@@ -54,12 +72,21 @@ function AuthPage() {
       const email = emailFor(user);
       let { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
 
-      // First-time setup: create the single maintainer account on first successful login attempt.
-      if (signInError && user === ADMIN_USERNAME) {
+      // First-time setup: create the maintainer / super admin / course accounts on first login attempt.
+      const course = COURSE_ACCOUNTS[user];
+      if (signInError && (user === ADMIN_USERNAME || user === SUPERADMIN_USERNAME || course)) {
         const { error: signUpError } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { full_name: "KHENS Administrator" } },
+          options: {
+            data: {
+              full_name:
+                course?.name ??
+                (user === SUPERADMIN_USERNAME
+                  ? "KHENS Super Administrator"
+                  : "KHENS Administrator"),
+            },
+          },
         });
         if (!signUpError) {
           ({ error: signInError } = await supabase.auth.signInWithPassword({ email, password }));
@@ -68,6 +95,16 @@ function AuthPage() {
 
       if (signInError) {
         setError("Incorrect username or password.");
+        return;
+      }
+      if (user === SUPERADMIN_USERNAME) {
+        await supabase.rpc("claim_superadmin");
+        navigate({ to: "/superadmin" });
+        return;
+      }
+      if (course) {
+        await supabase.rpc("claim_program_admin");
+        navigate({ to: "/course-admin" });
         return;
       }
       navigate({ to: "/admin" });
