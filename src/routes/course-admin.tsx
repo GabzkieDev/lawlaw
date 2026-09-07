@@ -242,6 +242,44 @@ function CourseAdminPage() {
         </section>
 
         <section>
+          <h2 className="font-display text-lg font-bold text-foreground">Scheduled course events</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            The built-in school-year schedule for {program?.title ?? slug.toUpperCase()}. These are managed by the main admin and cannot be edited here.
+          </p>
+          {program && program.events.length > 0 ? (
+            <ul className="mt-4 space-y-3">
+              {program.events.map((ev) => (
+                <li
+                  key={`${ev.date}-${ev.title}`}
+                  className="flex items-start justify-between gap-4 rounded-2xl border border-border bg-secondary p-5"
+                >
+                  <div>
+                    <h3 className="font-display text-base font-bold text-foreground">{ev.title}</h3>
+                    <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold text-flame">
+                      <span className="inline-flex items-center gap-1">
+                        <CalendarDays className="h-3.5 w-3.5" />
+                        {formatEventDate(ev.date)}
+                      </span>
+                      {ev.location && (
+                        <span className="inline-flex items-center gap-1 text-muted-foreground">
+                          <MapPin className="h-3.5 w-3.5" />
+                          {ev.location}
+                        </span>
+                      )}
+                    </p>
+                    {ev.detail && (
+                      <p className="mt-2 text-sm text-muted-foreground">{ev.detail}</p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-3 text-sm text-muted-foreground">No scheduled events for this course.</p>
+          )}
+        </section>
+
+        <section>
           <h2 className="font-display text-lg font-bold text-foreground">Your posted events</h2>
           {rows.length === 0 ? (
             <p className="mt-3 text-sm text-muted-foreground">No events posted yet.</p>
